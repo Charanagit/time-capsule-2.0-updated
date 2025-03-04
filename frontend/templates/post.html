@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='post.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Create a Post</h1>
+        
+        <form id="createPostForm" action="{{ url_for('create_post') }}" method="POST" enctype="multipart/form-data">
+            <!-- Title Section -->
+            <div class="title-section">
+                <label for="postTitle">Post Title:</label>
+                <input type="text" id="postTitle" name="title" placeholder="Enter post title" required>
+            </div>
+
+            <!-- Content Section -->
+            <div class="content-section">
+                <label for="postContent">Your Content:</label>
+                <textarea id="postContent" name="content" rows="6" placeholder="Type your content here..." required></textarea>
+            </div>
+
+            <!-- Attachment Section -->
+            <div class="attachment-section">
+                <label for="postImage">Attach Picture (Optional):</label>
+                <div class="image-upload-container">
+                    <input type="file" id="postImage" name="image" accept="image/*">
+                    <div id="imagePreview" class="image-preview">
+                        <p>No image selected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visibility Section -->
+            <div class="visibility-section">
+                <h3>Post Visibility</h3>
+                
+                <div class="visibility-options">
+                    <div class="radio-group">
+                        <input type="radio" id="privatePost" name="visibility" value="private" checked>
+                        <label for="privatePost">Private</label>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <input type="radio" id="friendsPost" name="visibility" value="friends">
+                        <label for="friendsPost">Friends</label>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <input type="radio" id="publicPost" name="visibility" value="public">
+                        <label for="publicPost">Public</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Publish Post</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='post.js') }}"></script>
+</body>
+</html>

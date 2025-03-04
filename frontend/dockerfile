@@ -1,0 +1,15 @@
+# Use Nginx image
+FROM nginx:latest
+
+# Remove default config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/
+
+# Copy your frontend files
+COPY ./static /usr/share/nginx/html
+COPY ./templates /usr/share/nginx/html/templates
+
+# Expose port 80
+EXPOSE 80

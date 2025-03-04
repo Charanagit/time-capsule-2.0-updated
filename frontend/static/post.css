@@ -1,0 +1,116 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    padding: 20px 30px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+}
+
+/* Image Upload Section */
+.image-upload-container {
+    position: relative;
+}
+
+.image-preview {
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    color: #999;
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 100%;
+    border-radius: 4px;
+}
+
+/* Visibility Section */
+h3 {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.radio-group input {
+    margin-right: 10px;
+}
+
+/* Button Styles */
+.submit-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
