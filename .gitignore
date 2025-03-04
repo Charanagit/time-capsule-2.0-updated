@@ -1,0 +1,9 @@
+data/
+*.log
+*.lock
+*.pyc
+__pycache__/
+venv/
+flask_sessions/
+instance/
+.env
