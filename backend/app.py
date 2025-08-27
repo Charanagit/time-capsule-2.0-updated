@@ -7,14 +7,24 @@ import os
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
+<<<<<<< HEAD
 # Allowed file types for uploads
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
+=======
+
+
+
+# Allowed file types for uploads
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+UPLOAD_FOLDER = 'static/uploads'
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 
 # Ensure the upload folder exists
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
+<<<<<<< HEAD
 # Flask app setup
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = os.getenv("SECRET_KEY", "timeCaps")
@@ -26,12 +36,25 @@ Session(app)
 
 # Connect to MongoDB (update MONGO_URI as needed)
 MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://myUser:MySecurePassword123@cluster1.m2maqcc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1")
+=======
+app = Flask(__name__, template_folder='/app/templates', static_folder='/app/static')
+
+app.secret_key = "timeCaps"  # Secret key for session and flashing messages
+
+# Configure session
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
+# Connect to MongoDB
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://mongodb:27017/total_records")
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 client = pymongo.MongoClient(MONGO_URI)
 db = client.get_database('total_records')
 users_collection = db.users
 posts_collection = db.posts
 scheduled_messages_collection = db.scheduled_messages
 
+<<<<<<< HEAD
 # ----------------- Utility Functions -----------------
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -42,16 +65,30 @@ def test_db():
     try:
         users_collection.insert_one({"test": "connection_check"})
         users_collection.delete_one({"test": "connection_check"})
+=======
+
+
+@app.route('/test_db')
+def test_db():
+    try:
+        users_collection.insert_one({"test": "connection_check"})  # Insert dummy data
+        users_collection.delete_one({"test": "connection_check"})  # Remove it after testing
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
         return "Database connection successful!"
     except Exception as e:
         return f"Database connection failed: {e}"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
 
+<<<<<<< HEAD
         stored_hashed_password = None
 
         # Try to fetch user from MongoDB if collection is available
@@ -81,12 +118,43 @@ def login():
             session['username'] = username
             flash('Login successful!')
             return redirect(url_for('home'))
+=======
+        print(f"Login attempt: {username}")  # Debugging step
+
+        user = users_collection.find_one({"username": username})
+
+        if user:
+            print(f"User found in DB: {user}")  # Debugging step
+        else:
+            print("User not found in DB")
+
+        if user and 'password' in user:
+            stored_hashed_password = user['password']
+            print(f"Stored hashed password (from DB): {stored_hashed_password}")  # Debugging step
+            
+            if isinstance(stored_hashed_password, str):  
+                stored_hashed_password = stored_hashed_password.encode('utf-8')
+
+            try:
+                if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
+                    session['username'] = username
+                    flash('Login successful!')
+                    print("Login successful! Redirecting to home...")
+                    return redirect(url_for('home'))
+                else:
+                    print("Password does not match")
+            except ValueError as e:
+                print(f"Error during bcrypt check: {e}")
+        else:
+            print("User object invalid or missing password")
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 
         flash('Invalid username or password')
         return redirect(url_for('login'))
 
     return render_template('login.html')
 
+<<<<<<< HEAD
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -114,6 +182,8 @@ def signup():
         return redirect(url_for('login'))
 
     return render_template('signup.html')
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 
 @app.route('/home')
 def home():
@@ -130,35 +200,71 @@ def logout():
     flash('Logged out successfully.')
     return redirect(url_for('login'))
 
+<<<<<<< HEAD
+=======
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('Username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        if users_collection.find_one({"username": username}):
+            flash('Username already exists!')
+            return redirect(url_for('signup'))
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        users_collection.insert_one({"username": username, "email": email, "password": hashed_password})
+        flash('Signup successful! Please log in.')
+        return redirect(url_for('login'))
+    return render_template('signup.html')
+
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 @app.route('/delete_scheduled_message/<message_id>', methods=['POST'])
 def delete_scheduled_message(message_id):
     if 'username' not in session:
         flash('Please log in first.')
         return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     result = scheduled_messages_collection.delete_one({"_id": ObjectId(message_id)})
     flash('Scheduled message deleted successfully.' if result.deleted_count > 0 else 'Failed to delete the scheduled message.')
     return redirect(url_for('view_scheduled_messages'))
 
+<<<<<<< HEAD
+=======
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
     if 'username' not in session:
         flash('Please log in first.')
         return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
         visibility = request.form['visibility']
         user = session['username']
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
         image_filename = None
         if 'image' in request.files:
             image = request.files['image']
             if image and allowed_file(image.filename):
                 image_filename = secure_filename(image.filename)
                 image.save(os.path.join(UPLOAD_FOLDER, image_filename))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
         post_data = {
             "username": user,
             "title": title,
@@ -170,7 +276,10 @@ def create_post():
         posts_collection.insert_one(post_data)
         flash('Post published successfully!')
         return redirect(url_for('home'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     return render_template('post.html')
 
 @app.route('/view_posts')
@@ -178,7 +287,10 @@ def view_posts():
     if 'username' not in session:
         flash('Please log in first.')
         return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     username = session['username']
     user_posts = posts_collection.find({'username': username}).sort('created_at', -1)
     return render_template('view_posts.html', posts=user_posts)
@@ -188,13 +300,17 @@ def schedule_message():
     if 'username' not in session:
         flash('Please log in first.')
         return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     if request.method == 'POST':
         caption = request.form.get('caption')
         message = request.form.get('messageText')
         visibility = request.form.get('visibility')
         schedule_type = request.form.get('scheduleType')
         custom_date = request.form.get('customDate') if schedule_type == 'custom' else None
+<<<<<<< HEAD
 
         schedule_date = (
             datetime.utcnow() + timedelta(days=365) if schedule_type == 'oneYear'
@@ -211,6 +327,16 @@ def schedule_message():
             image_attachment.save(os.path.join(UPLOAD_FOLDER, image_filename))
             image_url = url_for('static', filename='uploads/' + image_filename)
 
+=======
+        schedule_date = datetime.utcnow() + timedelta(days=365) if schedule_type == 'oneYear' else datetime.strptime(custom_date, '%Y-%m-%d') if custom_date else datetime.utcnow()
+        user = session['username']
+        image_attachment = request.files.get('imageAttachment')
+        image_url = None
+        if image_attachment and allowed_file(image_attachment.filename):
+            image_filename = secure_filename(image_attachment.filename)
+            image_attachment.save(os.path.join(UPLOAD_FOLDER, image_filename))
+            image_url = f"static/uploads/{image_filename}"
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
         scheduled_messages_collection.insert_one({
             "username": user,
             "caption": caption,
@@ -220,10 +346,15 @@ def schedule_message():
             "image_url": image_url,
             "created_at": datetime.utcnow()
         })
+<<<<<<< HEAD
 
         flash('Message scheduled successfully!')
         return redirect(url_for('home'))
 
+=======
+        flash('Message scheduled successfully!')
+        return redirect(url_for('home'))
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     return render_template('schedule.html')
 
 @app.route('/view_scheduled_messages')
@@ -231,13 +362,26 @@ def view_scheduled_messages():
     if 'username' not in session:
         flash('Please log in to view your scheduled messages.')
         return redirect(url_for('login'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
     username = session['username']
     scheduled_messages = scheduled_messages_collection.find({"username": username})
     return render_template('view_scheduled_messages.html', scheduled_messages=scheduled_messages)
 
+<<<<<<< HEAD
 # ----------------- Main -----------------
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
 
 #TEST GITHUB
+=======
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+
+
+>>>>>>> dc313e4c18b92b36a6a41f23bfafb1e4bdc0e610
