@@ -1,72 +1,74 @@
-# Time Capsule 2.0
+# ⏳ Time Capsule 2.0 ⏳
 
-A social media platform where users can schedule posts that become visible only on the selected future date.
+Welcome to **Time Capsule 2.0** – a personal digital memory keeper!  
+Store your posts, schedule messages, and preserve memories for the future.  
 
-## Features
-- User Registration & Login
-- Create Scheduled Posts
-- View Scheduled Posts upon Release Time
-- MongoDB NoSQL Database
-- Containerized with Docker & Docker Compose
-- Automatic MongoDB Backup Restore
+---
 
-## Tech Stack
-- **Backend:** Flask (Python)
-- **Frontend:** HTML, CSS, JavaScript
-- **Database:** MongoDB
-- **Containerization:** Docker, Docker Compose
+## 🚀 Features
+- User signup and login
+- Schedule messages with custom dates or one-year reminders
+- Create and view personal posts
+- Upload images to posts and messages
+- Navigate the website using **demo credentials** if backend is not running locally
 
-## How to Run Locally
+---
 
-### Prerequisites
-- Docker & Docker Compose installed
+## 🖼 Time Capsule Artwork
+      _________
+     /        /|
+    /________/ |
+   |        |  |
+   |  ⏳    |  |
+   |________| /
+   |________|/
+> A digital vault for your memories  
 
-### Clone the Repository
-```bash
-git clone https://github.com/YourUsername/TimeCapsule2.0.git
-cd TimeCapsule2.0
-```
+---
 
-### Build & Run Containers
-```bash
-docker-compose up --build
-```
+## 📦 Getting Started
 
-### Access the Application
-Go to: [http://localhost:5000](http://localhost:5000)
+### 1. Clone the Repository
+git clone https://github.com/Charanagit/time-capsule-2.0-updated.git  
+cd time-capsule-2.0-updated/backend
 
-## MongoDB Backup Restore
-A backup of the initial database is available inside the `database/` directory as **backup.json**.
+### 2. Install Dependencies
+Make sure you have Python installed (3.10+ recommended). Then install required packages:
+pip install -r requirements.txt
 
-If you want to restore the backup manually:
-1. Start the MongoDB container.
-2. Run the following command inside the container:
-```bash
-docker exec -it <mongodb_container_name> mongorestore --jsonArray --db total_records /data/db/backup.json
-```
+### 3. Run the App
+python app.py  
+- The backend runs locally on your machine (`http://127.0.0.1:5000`)  
+- Navigate through the website using a browser
 
-## Environment Variables
-Create a `.env` file with the following:
-```env
-SECRET_KEY=your_secret_key
-MONGO_URI=mongodb://mongodb:27017/your_db_name
-```
+---
 
-## Folder Structure
-```
-├── app.py             # Main Flask App
-├── requirements.txt   # Python Dependencies
-├── Dockerfile         # Backend Dockerfile
-├── docker-compose.yml # Docker Compose Configuration
-├── templates/         # HTML Templates
-├── static/            # CSS, JS, Images
-├── database/          # Backup Files
-└── docker-data/       # MongoDB Volume Data
-```
+## 👤 Demo Login (if you don't want to set up MongoDB)
+- **Username:** `demo`  
+- **Password:** `demo123`  
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+> You can explore all website features using these credentials without needing a local database connection.  
 
-## License
-[MIT](LICENSE)
+---
 
+## 📝 Notes
+- This app was primarily developed for showcasing full-stack skills  
+- MongoDB connection is required to create actual users and posts  
+- All other features work with the demo account
+
+---
+
+## ⚙️ Directory Structure
+backend/  
+├── app.py                 # Main Flask backend  
+├── static/                # CSS, JS, and image files  
+├── templates/             # HTML templates  
+├── requirements.txt       # Python dependencies  
+└── flask_session/         # Flask session files  
+
+---
+
+## 💡 Author
+Charana Pramoad – Full Stack Developer  
+
+Enjoy storing your memories! ⏳✨
